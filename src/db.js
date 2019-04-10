@@ -4,7 +4,7 @@ const database = new Dexie("Trello");
 
 database.version(1).stores({
   lists: "++id,title",
-  cards: "++id,listId,content,position"
+  cards: "++id,listId,content,position,updatedAt"
 });
 
 async function seedDatabase() {
@@ -16,6 +16,7 @@ async function seedDatabase() {
       await database.cards.add({
         listId: listId,
         position: j,
+        updatedAt: new Date().getTime(),
         content: `List ${i} Card ${j}`
       });
     }

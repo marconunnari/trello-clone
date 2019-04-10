@@ -5,6 +5,7 @@
   "dependencies": {
     "dexie": "^2.0.4",
     "react": "^16.8.6",
+    "react-beautiful-dnd": "^11.0.0-beta.3",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
     "react-textarea-autosize": "^7.1.0"

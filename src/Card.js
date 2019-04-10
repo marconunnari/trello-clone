@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import db from "./db";
 import CardEditor from "./CardEditor";
+import { Draggable } from "react-beautiful-dnd";
 
 class Card extends Component {
   state = {
@@ -33,26 +34,33 @@ class Card extends Component {
   };
 
   render() {
-    const { card } = this.props;
+    const { card, index } = this.props;
     const { hover, editing } = this.state;
 
     if (!editing) {
       return (
-        <div
-          className="Card"
-          onMouseEnter={this.startHover}
-          onMouseLeave={this.endHover}
-        >
-          {hover && (
-            <div className="Card-Icons">
-              <div className="Card-Icon" onClick={this.startEditing}>
-                <ion-icon name="create" />
-              </div>
+        <Draggable draggableId={card.id} index={index}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              className="Card"
+              onMouseEnter={this.startHover}
+              onMouseLeave={this.endHover}
+            >
+              {hover && (
+                <div className="Card-Icons">
+                  <div className="Card-Icon" onClick={this.startEditing}>
+                    <ion-icon name="create" />
+                  </div>
+                </div>
+              )}
+
+              {card.content}
             </div>
           )}
-
-          {card.content}
-        </div>
+        </Draggable>
       );
     } else {
       return (
