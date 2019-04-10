@@ -3,22 +3,22 @@ import TextareaAutosize from "react-textarea-autosize";
 
 class CardEditor extends Component {
   state = {
-    content: this.props.content || ""
+    text: this.props.text || ""
   };
 
-  handleChangeContent = event => this.setState({ content: event.target.value });
+  handleChangeText = event => this.setState({ text: event.target.value });
 
   onEnter = e => {
-    const { content } = this.state;
+    const { text } = this.state;
 
     if (e.keyCode === 13) {
       e.preventDefault();
-      this.props.onSave(content);
+      this.props.onSave(text);
     }
   };
 
   render() {
-    const { content } = this.state;
+    const { text } = this.state;
     const { onSave, onCancel, onDelete, adding } = this.props;
 
     return (
@@ -27,9 +27,9 @@ class CardEditor extends Component {
           <TextareaAutosize
             autoFocus
             className="Edit-Card-Textarea"
-            placeholder="Enter the content for this card..."
-            value={content}
-            onChange={this.handleChangeContent}
+            placeholder="Enter the text for this card..."
+            value={text}
+            onChange={this.handleChangeText}
             onKeyDown={this.onEnter}
           />
         </div>
@@ -38,7 +38,7 @@ class CardEditor extends Component {
             tabIndex="0"
             className="Edit-Button"
             style={{ backgroundColor: "#5aac44" }}
-            onClick={() => onSave(content)}
+            onClick={() => onSave(text)}
           >
             {adding ? "Add card" : "Save"}
           </div>

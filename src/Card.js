@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import db from "./db";
+import { connect } from "react-redux";
 import CardEditor from "./CardEditor";
 import { Draggable } from "react-beautiful-dnd";
 
@@ -16,21 +16,29 @@ class Card extends Component {
     this.setState({
       hover: false,
       editing: true,
-      content: this.props.card.content
+      text: this.props.card.text
     });
 
   endEditing = () => this.setState({ hover: false, editing: false });
 
-  editCard = async content => {
-    const { card } = this.props;
-    await db.database.cards.update(card.id, { content });
+  editCard = async text => {
+    const { card, dispatch } = this.props;
 
     this.endEditing();
+
+    dispatch({
+      type: "CHANGE_CARD_TEXT",
+      payload: { cardId: card._id, cardText: text }
+    });
   };
 
   deleteCard = async () => {
-    const { card } = this.props;
-    await db.database.cards.delete(card.id);
+    const { listId, card, dispatch } = this.props;
+
+    dispatch({
+      type: "DELETE_CARD",
+      payload: { cardId: card._id, listId }
+    });
   };
 
   render() {
@@ -39,7 +47,7 @@ class Card extends Component {
 
     if (!editing) {
       return (
-        <Draggable draggableId={card.id} index={index}>
+        <Draggable draggableId={card._id} index={index}>
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
@@ -57,7 +65,7 @@ class Card extends Component {
                 </div>
               )}
 
-              {card.content}
+              {card.text}
             </div>
           )}
         </Draggable>
@@ -65,7 +73,7 @@ class Card extends Component {
     } else {
       return (
         <CardEditor
-          content={card.content}
+          text={card.text}
           onSave={this.editCard}
           onDelete={this.deleteCard}
           onCancel={this.endEditing}
@@ -75,4 +83,8 @@ class Card extends Component {
   }
 }
 
-export default Card;
+const mapStateToProps = (state, ownProps) => ({
+  card: state.cardsById[ownProps.cardId]
+});
+
+export default connect(mapStateToProps)(Card);

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import db from "./db";
+import { connect } from "react-redux";
+import shortid from "shortid";
 
 import CardEditor from "./CardEditor";
 import Card from "./Card";
 import ListEditor from "./ListEditor";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
 class List extends Component {
   state = {
@@ -19,51 +20,53 @@ class List extends Component {
   handleChangeTitle = e => this.setState({ title: e.target.value });
 
   editListTitle = async () => {
-    const { list } = this.props;
+    const { listId, dispatch } = this.props;
     const { title } = this.state;
 
-    await db.database.lists.update(list.id, { title });
-
     this.toggleEditingTitle();
+
+    dispatch({
+      type: "CHANGE_LIST_TITLE",
+      payload: { listId, listTitle: title }
+    });
   };
 
   deleteList = async () => {
-    const { list } = this.props;
+    const { listId, list, dispatch } = this.props;
 
-    await db.database.cards
-      .where("listId")
-      .equals(list.id)
-      .delete();
-
-    await db.database.lists.delete(list.id);
+    dispatch({
+      type: "DELETE_LIST",
+      payload: { listId, cards: list.cards }
+    });
   };
 
   toggleAddingCard = () =>
     this.setState({ addingCard: !this.state.addingCard });
 
   addCard = async content => {
-    const { list, cards } = this.props;
-
-    const lastCard = cards[cards.length - 1];
+    const { listId, dispatch } = this.props;
 
     this.toggleAddingCard();
 
-    await db.database.cards.add({
-      listId: list.id,
-      position: lastCard ? lastCard.position + 1 : 0,
-      updatedAt: new Date().getTime(),
-      content
+    dispatch({
+      type: "ADD_CARD",
+      payload: { cardText: content, cardId: shortid.generate(), listId }
     });
   };
 
   render() {
-    const { list, cards } = this.props;
+    const { list, index } = this.props;
     const { editingTitle, addingCard, title } = this.state;
 
     return (
-      <Droppable droppableId={list.id}>
+      <Draggable draggableId={list._id} index={index}>
         {(provided, snapshot) => (
-          <div className="List" ref={provided.innerRef}>
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            className="List"
+          >
             {editingTitle ? (
               <ListEditor
                 list={list}
@@ -79,11 +82,23 @@ class List extends Component {
               </div>
             )}
 
-            {cards.map((card, index) => (
-              <Card key={card.id} card={card} index={index} />
-            ))}
+            <Droppable droppableId={list._id}>
+              {(provided, _snapshot) => (
+                <div ref={provided.innerRef}>
+                  {list.cards &&
+                    list.cards.map((cardId, index) => (
+                      <Card
+                        key={cardId}
+                        cardId={cardId}
+                        index={index}
+                        listId={list._id}
+                      />
+                    ))}
 
-            {provided.placeholder}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
 
             {addingCard ? (
               <CardEditor
@@ -98,9 +113,13 @@ class List extends Component {
             )}
           </div>
         )}
-      </Droppable>
+      </Draggable>
     );
   }
 }
 
-export default List;
+const mapStateToProps = (state, ownProps) => ({
+  list: state.listsById[ownProps.listId]
+});
+
+export default connect(mapStateToProps)(List);

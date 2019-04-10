@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import db from "./db";
-
+import { connect } from "react-redux";
 import ListEditor from "./ListEditor";
+import shortid from "shortid";
 
 class AddList extends Component {
   state = {
@@ -12,11 +12,13 @@ class AddList extends Component {
 
   createList = async () => {
     const { title } = this.state;
+    const { dispatch } = this.props;
 
     this.props.toggleAddingList();
 
-    await db.database.lists.add({
-      title
+    dispatch({
+      type: "ADD_LIST",
+      payload: { listId: shortid.generate(), listTitle: title }
     });
   };
 
@@ -55,4 +57,4 @@ class AddList extends Component {
   }
 }
 
-export default AddList;
+export default connect()(AddList);
