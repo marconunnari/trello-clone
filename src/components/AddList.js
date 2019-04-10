@@ -1,3 +1,5 @@
+import "../styles/AddList.css";
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ListEditor from "./ListEditor";

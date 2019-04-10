@@ -1,3 +1,5 @@
+import "../styles/Card.css";
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import CardEditor from "./CardEditor";

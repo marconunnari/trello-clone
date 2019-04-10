@@ -1,3 +1,5 @@
+import "../styles/List.css";
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import shortid from "shortid";

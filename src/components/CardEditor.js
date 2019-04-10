@@ -1,3 +1,5 @@
+import "../styles/CardEditor.css";
+
 import React, { Component } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
