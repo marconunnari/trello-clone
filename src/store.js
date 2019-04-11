@@ -16,7 +16,8 @@ const board = (state = { lists: [] }, action) => {
     }
     case "DELETE_LIST": {
       const { listId } = action.payload;
-      const newLists = state.lists.filter(tmpListId => tmpListId !== listId);
+      const filterDeleted = tmpListId => tmpListId !== listId;
+      const newLists = state.lists.filter(filterDeleted);
       return { lists: newLists };
     }
     default:
@@ -63,11 +64,12 @@ const listsById = (state = {}, action) => {
     }
     case "DELETE_CARD": {
       const { cardId: deletedCardId, listId } = action.payload;
+      const filterDeleted = cardId => cardId !== deletedCardId;
       return {
         ...state,
         [listId]: {
           ...state[listId],
-          cards: state[listId].cards.filter(cardId => cardId !== deletedCardId)
+          cards: state[listId].cards.filter(filterDeleted)
         }
       };
     }
