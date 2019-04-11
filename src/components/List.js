@@ -110,7 +110,7 @@ class List extends Component {
               />
             ) : (
               <div className="Toggle-Add-Card" onClick={this.toggleAddingCard}>
-                <ion-icon name="add" /> Add another card
+                <ion-icon name="add" /> Add a card
               </div>
             )}
           </div>
