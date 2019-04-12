@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import ListEditor from "./ListEditor";
 import shortid from "shortid";
+import EditButtons from "./EditButtons";
 
 class AddList extends Component {
   state = {
@@ -37,23 +38,11 @@ class AddList extends Component {
           saveList={this.createList}
         />
 
-        <div className="Edit-Buttons">
-          <div
-            tabIndex="0"
-            className="Edit-Button"
-            style={{ backgroundColor: "#5aac44" }}
-            onClick={this.createList}
-          >
-            Add list
-          </div>
-          <div
-            tabIndex="0"
-            className="Edit-Button-Cancel"
-            // onClick={onCancel}
-          >
-            <ion-icon name="close" />
-          </div>
-        </div>
+        <EditButtons
+          handleSave={this.createList}
+          saveLabel={"Add list"}
+          handleCancel={toggleAddingList}
+        />
       </div>
     );
   }

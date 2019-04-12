@@ -80,7 +80,7 @@ class List extends Component {
               />
             ) : (
               <div className="List-Title" onClick={this.toggleEditingTitle}>
-                {title}
+                {list.title}
               </div>
             )}
 

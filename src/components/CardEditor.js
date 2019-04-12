@@ -2,6 +2,7 @@ import "../styles/CardEditor.css";
 
 import React, { Component } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import EditButtons from "./EditButtons";
 
 class CardEditor extends Component {
   state = {
@@ -35,29 +36,12 @@ class CardEditor extends Component {
             onKeyDown={this.onEnter}
           />
         </div>
-        <div className="Edit-Buttons">
-          <div
-            tabIndex="0"
-            className="Edit-Button"
-            style={{ backgroundColor: "#5aac44" }}
-            onClick={() => onSave(text)}
-          >
-            {adding ? "Add card" : "Save"}
-          </div>
-          {onDelete && (
-            <div
-              tabIndex="0"
-              className="Edit-Button"
-              style={{ backgroundColor: "#EA2525", marginLeft: 0 }}
-              onClick={onDelete}
-            >
-              Delete
-            </div>
-          )}
-          <div tabIndex="0" className="Edit-Button-Cancel" onClick={onCancel}>
-            <ion-icon name="close" />
-          </div>
-        </div>
+        <EditButtons
+          handleSave={() => onSave(text)}
+          saveLabel={adding ? "Add card" : "Save"}
+          handleDelete={onDelete}
+          handleCancel={onCancel}
+        />
       </div>
     );
   }
