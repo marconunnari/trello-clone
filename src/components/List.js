@@ -2,18 +2,35 @@ import "../styles/List.css";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import shortid from "shortid";
-
-import CardEditor from "./CardEditor";
-import Card from "./Card";
-import ListEditor from "./ListEditor";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+
+import Card from "./Card";
+import CardEditor from "./CardEditor";
+import ListEditor from "./ListEditor";
+
+import shortid from "shortid";
 
 class List extends Component {
   state = {
     editingTitle: false,
     title: this.props.list.title,
     addingCard: false
+  };
+
+  toggleAddingCard = () =>
+    this.setState({ addingCard: !this.state.addingCard });
+
+  addCard = async cardText => {
+    const { listId, dispatch } = this.props;
+
+    this.toggleAddingCard();
+
+    const cardId = shortid.generate();
+
+    dispatch({
+      type: "ADD_CARD",
+      payload: { cardText, cardId, listId }
+    });
   };
 
   toggleEditingTitle = () =>
@@ -39,20 +56,6 @@ class List extends Component {
     dispatch({
       type: "DELETE_LIST",
       payload: { listId, cards: list.cards }
-    });
-  };
-
-  toggleAddingCard = () =>
-    this.setState({ addingCard: !this.state.addingCard });
-
-  addCard = async content => {
-    const { listId, dispatch } = this.props;
-
-    this.toggleAddingCard();
-
-    dispatch({
-      type: "ADD_CARD",
-      payload: { cardText: content, cardId: shortid.generate(), listId }
     });
   };
 

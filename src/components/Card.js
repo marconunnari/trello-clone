@@ -2,8 +2,9 @@ import "../styles/Card.css";
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import CardEditor from "./CardEditor";
 import { Draggable } from "react-beautiful-dnd";
+
+import CardEditor from "./CardEditor";
 
 class Card extends Component {
   state = {

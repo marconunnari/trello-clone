@@ -1,8 +1,8 @@
 import "../styles/Board.css";
 
 import React, { Component } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import List from "./List";
 import AddList from "./AddList";
@@ -16,7 +16,7 @@ class Board extends Component {
     this.setState({ addingList: !this.state.addingList });
 
   handleDragEnd = ({ source, destination, type }) => {
-    // dropped outside the list
+    // dropped outside the allowed zones
     if (!destination) return;
 
     const { dispatch } = this.props;
