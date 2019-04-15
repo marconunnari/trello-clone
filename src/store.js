@@ -28,6 +28,25 @@ const board = (state = { lists: [] }, action) => {
 
 const listsById = (state = {}, action) => {
   switch (action.type) {
+    case "ADD_LIST": {
+      const { listId, listTitle } = action.payload;
+      return {
+        ...state,
+        [listId]: { _id: listId, title: listTitle, cards: [] }
+      };
+    }
+    case "CHANGE_LIST_TITLE": {
+      const { listId, listTitle } = action.payload;
+      return {
+        ...state,
+        [listId]: { ...state[listId], title: listTitle }
+      };
+    }
+    case "DELETE_LIST": {
+      const { listId } = action.payload;
+      const { [listId]: deletedList, ...restOfLists } = state;
+      return restOfLists;
+    }
     case "ADD_CARD": {
       const { listId, cardId } = action.payload;
       return {
@@ -73,25 +92,6 @@ const listsById = (state = {}, action) => {
           cards: state[listId].cards.filter(filterDeleted)
         }
       };
-    }
-    case "ADD_LIST": {
-      const { listId, listTitle } = action.payload;
-      return {
-        ...state,
-        [listId]: { _id: listId, title: listTitle, cards: [] }
-      };
-    }
-    case "CHANGE_LIST_TITLE": {
-      const { listId, listTitle } = action.payload;
-      return {
-        ...state,
-        [listId]: { ...state[listId], title: listTitle }
-      };
-    }
-    case "DELETE_LIST": {
-      const { listId } = action.payload;
-      const { [listId]: deletedList, ...restOfLists } = state;
-      return restOfLists;
     }
     default:
       return state;
