@@ -1,6 +1,6 @@
 # Build a Trello clone with React and Redux 
  
-In this tutorial we'll build a Trello clone with React and Redux. You can try the final result with the [Demo](https://react-trello-clone.netlify.com) and see it in the following video:
+In this tutorial we'll build a Trello clone with React and Redux. You can try the final result at [https://react-trello-clone.netlify.com](https://react-trello-clone.netlify.com) and see it in the following video:
 [![Video](./Screenshot.png)](https://youtu.be/YQEJbcB96Q8 "Video")
 
 
