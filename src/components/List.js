@@ -91,7 +91,7 @@ class List extends Component {
 
             <Droppable droppableId={list._id}>
               {(provided, _snapshot) => (
-                <div ref={provided.innerRef}>
+                <div ref={provided.innerRef} className="Lists-Cards">
                   {list.cards &&
                     list.cards.map((cardId, index) => (
                       <Card
@@ -103,21 +103,21 @@ class List extends Component {
                     ))}
 
                   {provided.placeholder}
+
+                  {addingCard ? (
+                    <CardEditor
+                      onSave={this.addCard}
+                      onCancel={this.toggleAddingCard}
+                      adding
+                    />
+                  ) : (
+                    <div className="Toggle-Add-Card" onClick={this.toggleAddingCard}>
+                      <ion-icon name="add" /> Add a card
+                    </div>
+                  )}
                 </div>
               )}
             </Droppable>
-
-            {addingCard ? (
-              <CardEditor
-                onSave={this.addCard}
-                onCancel={this.toggleAddingCard}
-                adding
-              />
-            ) : (
-              <div className="Toggle-Add-Card" onClick={this.toggleAddingCard}>
-                <ion-icon name="add" /> Add a card
-              </div>
-            )}
           </div>
         )}
       </Draggable>
