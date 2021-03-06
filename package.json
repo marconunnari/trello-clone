@@ -5,7 +5,7 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8",
+    "react-scripts": "4.0.3",
     "redux": "^4.0.1",
     "react-redux": "^7.0.1",
     "react-beautiful-dnd": "^11.0.0-beta.3",
