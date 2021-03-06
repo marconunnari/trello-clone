@@ -53,10 +53,12 @@ class List extends Component {
   deleteList = async () => {
     const { listId, list, dispatch } = this.props;
 
-    dispatch({
-      type: "DELETE_LIST",
-      payload: { listId, cards: list.cards }
-    });
+    if (window.confirm("Are you sure to delete this list?")) {
+      dispatch({
+        type: "DELETE_LIST",
+        payload: {listId, cards: list.cards}
+      });
+    }
   };
 
   render() {
