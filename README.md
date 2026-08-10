@@ -574,9 +574,13 @@ export default function Board() {
               {addingList ? (
                 <AddList toggleAddingList={toggleAddingList} />
               ) : (
-                <div onClick={toggleAddingList} className="Add-List-Button">
+                <button
+                  type="button"
+                  onClick={toggleAddingList}
+                  className="Add-List-Button"
+                >
                   <ion-icon name="add-outline" /> Add a list
-                </div>
+                </button>
               )}
             </div>
           </div>
@@ -914,8 +918,15 @@ export default function ListEditor({
       onClickOutside();
     };
 
-    document.addEventListener("click", handleClick, false);
-    return () => document.removeEventListener("click", handleClick, false);
+    // Defer so the click that opened the editor does not immediately close it
+    const timeoutId = window.setTimeout(() => {
+      document.addEventListener("click", handleClick, false);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      document.removeEventListener("click", handleClick, false);
+    };
   }, [onClickOutside]);
 
   const onEnter = (e) => {

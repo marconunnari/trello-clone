@@ -63,9 +63,13 @@ export default function Board() {
               {addingList ? (
                 <AddList toggleAddingList={toggleAddingList} />
               ) : (
-                <div onClick={toggleAddingList} className="Add-List-Button">
+                <button
+                  type="button"
+                  onClick={toggleAddingList}
+                  className="Add-List-Button"
+                >
                   <ion-icon name="add-outline" /> Add a list
-                </div>
+                </button>
               )}
             </div>
           </div>
