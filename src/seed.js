@@ -1,55 +1,29 @@
-import shortid from "shortid";
+import { nanoid } from "nanoid";
 
-export default function seed(store) {
-  console.log("Insert first list");
-  const firstListId = shortid.generate();
+export default function createSeedState() {
+  const firstListId = nanoid();
+  const secondListId = nanoid();
+  const cardIds = [nanoid(), nanoid(), nanoid(), nanoid()];
 
-  store.dispatch({
-    type: "ADD_LIST",
-    payload: { listId: firstListId, listTitle: "First list" }
-  });
-
-  store.dispatch({
-    type: "ADD_CARD",
-    payload: {
-      listId: firstListId,
-      cardId: shortid.generate(),
-      cardText: "First card"
-    }
-  });
-
-  store.dispatch({
-    type: "ADD_CARD",
-    payload: {
-      listId: firstListId,
-      cardId: shortid.generate(),
-      cardText: "Second card"
-    }
-  });
-
-  console.log("Insert second list");
-  const secondListId = shortid.generate();
-
-  store.dispatch({
-    type: "ADD_LIST",
-    payload: { listId: secondListId, listTitle: "Second list" }
-  });
-
-  store.dispatch({
-    type: "ADD_CARD",
-    payload: {
-      listId: secondListId,
-      cardId: shortid.generate(),
-      cardText: "Card 1"
-    }
-  });
-
-  store.dispatch({
-    type: "ADD_CARD",
-    payload: {
-      listId: secondListId,
-      cardId: shortid.generate(),
-      cardText: "Card 2"
-    }
-  });
-};
+  return {
+    board: { lists: [firstListId, secondListId] },
+    listsById: {
+      [firstListId]: {
+        _id: firstListId,
+        title: "First list",
+        cards: [cardIds[0], cardIds[1]],
+      },
+      [secondListId]: {
+        _id: secondListId,
+        title: "Second list",
+        cards: [cardIds[2], cardIds[3]],
+      },
+    },
+    cardsById: {
+      [cardIds[0]]: { text: "First card", _id: cardIds[0] },
+      [cardIds[1]]: { text: "Second card", _id: cardIds[1] },
+      [cardIds[2]]: { text: "Card 1", _id: cardIds[2] },
+      [cardIds[3]]: { text: "Card 2", _id: cardIds[3] },
+    },
+  };
+}
