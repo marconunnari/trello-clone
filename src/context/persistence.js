@@ -1,4 +1,4 @@
-const STORAGE_KEY = "trello-clone-state";
+const STORAGE_KEY = "state";
 
 export function loadState() {
   try {

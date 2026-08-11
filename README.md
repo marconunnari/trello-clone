@@ -326,7 +326,7 @@ One reducer handles the whole board. Actions are plain objects with a `type` and
 Create `src/context/persistence.js`:
 
 ```js
-const STORAGE_KEY = "trello-clone-state";
+const STORAGE_KEY = "state";
 
 export function loadState() {
   try {
